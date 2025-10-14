@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>ic_fb</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0.0005 0.0019 24 0.0019 24 23.9999 0.0005 23.9999"></polygon>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="base/share_group">
+            <g id="ic_fb">
+                <g id="Group-3" transform="translate(0.000000, -0.001500)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Clip-2"></g>
+                    <path d="M24.0005,11.9999 C24.0005,18.6279 18.6275,23.9999 12.0005,23.9999 C5.3735,23.9999 0.0005,18.6279 0.0005,11.9999 C0.0005,5.3739 5.3735,0.0019 12.0005,0.0019 C18.6275,0.0019 24.0005,5.3739 24.0005,11.9999" id="Fill-1" fill="#4F70B6" mask="url(#mask-2)"></path>
+                </g>
+                <path d="M14.187,6.9974 L15.856,6.9974 L15.856,4.37227577 L13.783,4.37227577 L13.354,4.37227577 C13.354,4.37227577 11.781,4.3334 10.778,5.6374 C10.778,5.6374 10.095,6.2814 10.084,8.1674 L10.083,8.1674 L10.083,10.1354 L7.611,10.1354 L7.611,12.9224 L10.083,12.9224 L10.083,20.1204 L12.936,20.1204 L12.936,12.9224 L15.39,12.9224 L15.732,10.1354 L12.936,10.1354 L12.936,8.1674 C12.943,7.9474 13.041,6.9764 14.187,6.9974" id="Fill-4" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>
