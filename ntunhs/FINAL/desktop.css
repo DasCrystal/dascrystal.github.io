@@ -1,0 +1,231 @@
+
+article, footer
+{
+    /* height: 100vh; */
+    padding: 5%;
+    padding-left: 10%;
+    padding-right: 10%;
+    letter-spacing: 0.05em;
+    word-break: keep-all;
+
+    h2
+    {
+        padding: 1rem;
+        padding-left: 0;
+    }
+
+    .header
+    {
+        background-color: black;
+        color: white;
+        padding-left: 1rem;
+    }
+
+    overflow: scroll;
+}
+
+#bg
+{
+    position:absolute;
+    inset: 0;
+    z-index:-1;
+
+    /* background-color: aquamarine; */
+    background-color: #c6da56;
+    transform: rotate(20deg) translateY(50vh) ;
+}
+
+nav
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1vh 10vw 1vh 10vw;
+
+    position: fixed;
+    bottom: 0;
+
+    width: 100vw;
+    height: 15vh;
+
+    border-top: solid 5px black;
+    background-color: white;
+
+    font-size: 120%;
+}
+
+a
+{    
+    text-decoration: none;
+    font-size: 180%;
+    font-weight: 800;
+
+    color: black;
+}
+
+a:hover::after
+{
+    content: " <-";
+    position: absolute;
+    transform: translateX(1vw);
+}
+
+a[href="#HOME"]:hover::after
+{
+    position: relative;
+    bottom: 1vh;
+    content: "^ BACK TO TOP";
+    font-size: 70%;
+}
+
+.title
+{
+    grid-area: T;
+
+    height: fit-content;
+    align-content: start;
+
+    font-size: 1.5rem;
+    font-weight: 700;
+
+
+    h3
+    {
+        font-size: 70%;
+    }
+}
+
+#HOME
+{
+    display: grid;
+    row-gap: 5vh;
+    grid-template:
+    "T . I I" 0.2fr
+    "S . I I" auto
+    "J . C D" 0.2fr /
+    0.2fr 0.1fr auto auto;
+    /*
+        T = Title, S = Slogan, C = Comment,
+        I = Icons, J = Jumper
+    */
+
+    height: 100vh;
+    
+    /*
+        holy chet
+        https://stackoverflow.com/questions/55876207/display-a-grid-p-row-vs-a-grid-div-row
+        in grid layout,
+        p is different to div, especially when containing element in it
+    */
+
+    .slogan
+    {
+        position: relative;
+        right: 0.1em;
+
+        grid-area: S;
+
+        font-size: 3rem;
+        writing-mode: vertical-lr;
+        text-wrap: nowrap;
+        line-height: 1.2em;
+        font-weight: 800;
+
+        text-align: center;
+        /* align-content: center; */
+    }
+
+    .jumper
+    {
+        grid-area: J;
+
+        align-content: end;
+
+        a
+        {
+            display: block;
+        }
+    }
+
+    .comment, .disclamer
+    {
+        
+
+        white-space: pre-line;
+
+        font-weight: 600;
+        font-size: 100%;
+
+        align-content: end;
+    }
+
+    .comment
+    {grid-area: C;}
+    
+    .disclamer
+    {
+        grid-area: D;
+        text-align: end;
+    }
+
+    .icons
+    {
+        grid-area: I;
+
+        display: grid;
+        grid-template:
+        "W F S H" auto /
+        1fr 1fr 1fr 1fr;
+
+        *
+        {
+            background-size: 100px;
+            background-repeat: space;
+        }
+
+        .why
+        {
+            grid-area: W;
+            background-image: url("./orange.svg");
+        }
+
+        .foods
+        {
+            grid-area: F;
+            background-image: url("./exercise.svg");
+        }
+
+        .sport
+        {
+            grid-area: S;
+            background-image: url("./run.svg");
+        }
+
+        .healthy
+        {
+            grid-area: H;
+            background-image: url("./fly.svg");
+        }
+    }
+}
+
+#WHY, #FOODS, #SPORT
+{
+    column-count: 2;
+    column-gap: 5%;
+
+    div
+    {
+        display: inline-block;
+        font-size: 140%;
+        font-weight: 500;
+        line-height: 1.8em;
+        margin-bottom: 2.7vh;
+    }
+
+    h2
+    {
+        margin-bottom: 2.7vh;
+    }
+}
