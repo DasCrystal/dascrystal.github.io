@@ -276,6 +276,11 @@ footer
     padding: 2em;
 
     align-content: center;
+
+    span
+    {
+        text-decoration: line-through;
+    }
 }
 
 #navpadder
