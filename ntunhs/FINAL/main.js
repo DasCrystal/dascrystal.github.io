@@ -28,14 +28,26 @@ function determineNavbar()
 
 window.addEventListener
 (
-    "DOMContentLoaded",
-    () =>
-    {determineNavbar();}
-)
-
-window.addEventListener
-(
     'scroll',
     () =>
     {determineNavbar();}
 );
+
+window.addEventListener
+(
+    "DOMContentLoaded",
+    () =>
+    {
+        determineNavbar();
+
+        qa("p").forEach
+        (
+            (el) =>
+            {
+                el.innerHTML = el.innerHTML.replace("。", "。\n");
+                console.log(el.innerHTML);
+            }
+        )
+    }
+)
+
