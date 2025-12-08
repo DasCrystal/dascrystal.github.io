@@ -31,6 +31,15 @@ html
     {transform: translateX(0);}
 }
 
+@keyframes slighterslideleft
+{
+    0%
+    {transform: translateX(2vw);}
+
+    100%
+    {transform: translateX(1vw);}
+}
+
 @keyframes slideup
 {
     0%
