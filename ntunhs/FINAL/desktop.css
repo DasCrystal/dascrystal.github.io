@@ -1,9 +1,4 @@
 
-p /* for JS wrapping */
-{
-    white-space: pre-line;
-}
-
 article
 {
     padding: 5vh;
@@ -15,66 +10,50 @@ article
 nav
 {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     z-index: 100;
-
-    padding: 1vh 10vw 1vh 10vw;
 
     position: fixed;
     bottom: 0;
+    padding: 1.5em;
 
     width: 100vw;
-    height: 15vh;
+    height: fit-content;
 
-    border-top: solid 5px black;
-    background-color: #c6da56;
+    border-top: solid 0.5vh black;
+    background-image: linear-gradient(to right, white 0%, white 30%, #00000000);
 
-    font-size: 150%;
+    align-items: center;
+    font-size: 1.3vmin;
+
+    [href="#HOME"]
+    {
+        h2, h3
+        {
+            display: inline;
+        }
+    }
+
+    a::after
+    {
+        content: "|";
+        width: 2em;
+
+        padding-right: 2vh;
+        padding-left:  2vh;
+    }
+
+    a:last-child::after
+    {
+        content: none;
+    }
+
+    a:hover::after
+    {
+        content: "<";
+    }
 }
 
-a
-{    
-    text-decoration: none;
-    font-size: 180%;
-    font-weight: 800;
-
-    color: black;
-}
-
-a:hover::after
-{
-    content: " ←";
-    position: absolute;
-    transform: translateX(1vw);
-    animation: slighterslideleft 0.5s;
-}
-
-a[target="_blank"]::after
-{
-    position: absolute;
-    content: url("./out.svg");
-    animation: none;
-
-    transition: transform 0.1s;
-    transform: translateX(1vw) scale(1.5);
-}
-
-a[target="_blank"]:hover::after
-{
-    transition: transform 0.1s;
-    transform: translateX(1vw) scale(2);
-}
-    
-a[href="#HOME"]:hover::after
-{
-    position: relative;
-    bottom: 1vh;
-    content: "^ BACK TO TOP";
-    font-size: 70%;
-}
-
-.title /* including the nav one */
+.title
 {
     grid-area: T;
 
@@ -83,6 +62,7 @@ a[href="#HOME"]:hover::after
 
     font-size: 1.5rem;
     font-weight: 700;
+    text-wrap: nowrap;
 
     animation: slideleft 1s;
 
@@ -92,21 +72,15 @@ a[href="#HOME"]:hover::after
     }
 }
 
-nav .title
-{
-    animation: slideup 0.5s;
-}
-
 #HOME
 {
     display: grid;
-    column-gap: 3vw;
     row-gap: 5vh;
     grid-template:
     "T . I I" 0.2fr
     "S . I I" auto
     "J . C D" 0.2fr /
-    0.2fr 0.1fr auto auto;
+    10vw 10vw auto auto;
     /*
         T = Title, S = Slogan, C = Comment,
         I = Icons, J = Jumper
@@ -170,7 +144,7 @@ nav .title
     .disclamer
     {
         grid-area: D;
-        text-align: end;
+        text-align: start;
     }
 
     .icons
@@ -212,13 +186,47 @@ nav .title
             background-image: url("./fly.svg");
         }
     }
+
+    .hint
+    {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+
+        padding: 1em;
+
+        font-size: 1.5em;
+        font-weight: 700;
+        writing-mode: vertical-lr;
+    }
+
+    a:hover::after
+    {
+        content: " ←";
+        position: absolute;
+        transform: translateX(1vw);
+        animation: slighterslideleft 0.5s;
+    }
+
+    a[target="_blank"]::after
+    {
+        position: absolute;
+        content: url("./out.svg");
+        animation: none;
+
+        transition: transform 0.1s;
+        transform: translateX(1vw) scale(1.5);
+    }
+
+    a[target="_blank"]:hover::after
+    {
+        transition: transform 0.1s;
+        transform: translateX(1vw) scale(2);
+    }
 }
 
-#WHY, #FOODS, #SPORT
+#WHY, #FOODS, #SPORT, #EXAMPLE
 {
-    column-count: 2;
-    column-gap: 5vw;
-
     h2
     {
         margin-bottom: 2.7vh;
@@ -226,6 +234,12 @@ nav .title
         background-color: black;
         color: white;
     }
+}
+
+#WHY, #FOODS, #SPORT
+{
+    column-count: 2;
+    column-gap: 5vw;
 
     div
     {
@@ -257,9 +271,15 @@ nav .title
 
         ul
         {
-            list-style: none;
+            list-style: inside;
         }
     }
+}
+
+#EXAMPLE
+{
+    img
+    
 }
 
 /* background stuff */
@@ -285,16 +305,20 @@ article::before
     top: 0;
     left: 0;
     z-index: -1;
+
+    /* blur filter's max limit is 100px under cross browser scense */
+    /* https://stackoverflow.com/questions/70523380/how-to-blur-consistently-cross-browsers */
+    filter: blur(100px);
 }
 
-article:nth-child(1)::before
+#HOME::before
 {
     transform: skewX(30deg) skewY(2deg) scale(0.8);
 }
 
 article:nth-child(2)::before
 {
-    transform: skewX(5deg) skewY(5deg);
+    transform: skewX(-50deg) skewY(5deg);
 }
 
 article:nth-child(3)::before
@@ -304,12 +328,12 @@ article:nth-child(3)::before
 
 article:nth-child(4)::before
 {
-    transform: skewX(3deg) skewY(0deg);
+    transform: skewX(3deg) skewY(0deg) scale(0.9);
 }
 
 #HOME::before
 {
-    background-color: #c6da56;    
+    background-color: #c6da56;
 }
 
 #WHY::before
