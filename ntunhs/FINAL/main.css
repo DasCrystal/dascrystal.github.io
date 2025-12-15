@@ -7,12 +7,8 @@ html
     overflow-x: hidden;
     
     /* height: 100%; */
-}
 
-img
-{
-    max-height: 90vh;
-    width: auto;
+    scroll-behavior: smooth;
 }
 
 a
@@ -30,8 +26,12 @@ a
     box-sizing: border-box;
 
     font-family: "Noto Sans TC", sans-serif;
+}
 
-    scrollbar-width: none;
+::-webkit-scrollbar
+{
+    width: 1px;
+    background-color: black;
 }
 
 pl /* possible line */

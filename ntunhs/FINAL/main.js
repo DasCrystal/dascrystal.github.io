@@ -57,8 +57,6 @@ function cutParagraph(content)
     {result = result.slice(0, -4);}
     else
     {result = result + "</pl>";}
-
-    console.log(result);
     
     return result;
 }

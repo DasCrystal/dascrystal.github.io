@@ -165,25 +165,25 @@ nav
         .why
         {
             grid-area: W;
-            background-image: url("./exercise.svg");
+            background-image: url("./i/con/exercise.svg");
         }
 
         .foods
         {
             grid-area: F;
-            background-image: url("./food.svg");
+            background-image: url("./i/con/food.svg");
         }
 
         .sport
         {
             grid-area: S;
-            background-image: url("./run.svg");
+            background-image: url("./i/con/run.svg");
         }
 
         .healthy
         {
             grid-area: H;
-            background-image: url("./fly.svg");
+            background-image: url("./i/con/fly.svg");
         }
     }
 
@@ -211,7 +211,7 @@ nav
     a[target="_blank"]::after
     {
         position: absolute;
-        content: url("./out.svg");
+        content: url("./i/con/out.svg");
         animation: none;
 
         transition: transform 0.1s;
@@ -278,8 +278,41 @@ nav
 
 #EXAMPLE
 {
-    img
+    .imgcontainer
+    {
+        display: flex;
+        height: 100vh;
+    }
+
+    .imgcontainer
+    {
+        div
+        {
+            overflow: hidden;
+            
+            height: 70vh;
+            width: auto;
+
+            img
+            {
+                height: 70vh;
+                width: auto;
+            }
+        }
+        
     
+        div:hover
+        {
+            overflow: visible;
+
+            height: 70vh;
+            width: auto;
+
+            box-shadow: black 0px 0px 20px;
+            
+            z-index: 2;
+        }
+    }
 }
 
 /* background stuff */
@@ -293,10 +326,10 @@ nav
     ::before & ::after  
 */
 
-article
+article, footer
 {position: relative;}
 
-article::before
+article::before, footer::before
 {
     content: "";
     position: absolute;
@@ -314,41 +347,39 @@ article::before
 #HOME::before
 {
     transform: skewX(30deg) skewY(2deg) scale(0.8);
-}
-
-article:nth-child(2)::before
-{
-    transform: skewX(-50deg) skewY(5deg);
-}
-
-article:nth-child(3)::before
-{
-    transform: skewX(-6deg) skewY(8deg);
-}
-
-article:nth-child(4)::before
-{
-    transform: skewX(3deg) skewY(0deg) scale(0.9);
-}
-
-#HOME::before
-{
     background-color: #c6da56;
 }
 
 #WHY::before
 {
+    transform: skewX(-50deg) skewY(5deg);
     background-color: lightgrey;
 }
 
 #FOODS::before
 {
+    transform: skewX(-6deg) skewY(8deg);
     background-color: salmon;    
 }
 
 #SPORT::before
 {
+    transform: skewX(3deg) skewY(0deg) scale(0.9);
     background-color: cornflowerblue;
+}
+
+#EXAMPLE::before
+{
+    transform: skewX(20deg) skewY(-10deg) scale(0.8);
+    background-color: black;
+}
+
+footer::before
+{
+    filter: blur(5px);
+
+    transform: skewY(2deg);
+    background-color: #172145;
 }
 
 /* footer */
@@ -357,10 +388,11 @@ footer
 {
     height: 6em;
     width: 100vw;
-
     padding: 2em;
 
     align-content: center;
+
+    color: white;
 
     span
     {
