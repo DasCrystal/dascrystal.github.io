@@ -35,66 +35,33 @@ window.addEventListener
     {determineNavbar();}
 );
 
-// /* Auto Content Line Cutting */
+/* Auto Content Line Cutting */
+// CSS define of element "pl" was required.
 
-// function arrayToLines(array, widthpx, fontpx)
-// {
-//     charPerLine = widthpx / fontpx - 1;
+function cutParagraphs()
+{
+    qa(".content").forEach
+    (
+        (e) =>
+        {
+            e.innerHTML = cutParagraph(e.innerHTML);
+        }
+    )
+}
 
-//     result   = "<div>";
-//     readyCut = false;
-//     buffer   = "";
-
-//     array.forEach
-//     (
-//         element =>
-//         {
-//             if (readyCut)
-//             {
-//                 if ("，、。".includes(element))
-//                 {
-//                     result += buffer + element + "</div>";
-//                     buffer = "";
-//                 }
-//                 else
-//                 {
-//                     result += buffer + "</div><div>";
-//                     buffer = element;
-//                 }
-                
-//                 readyCut = false;
-//             }
-//             else
-//             {
-//                 buffer += element;
-
-//                 if (charPerLine - buffer.length < charPerLine / 3 && "，、。".includes(element))
-//                 {readyCut = true;}
-//             }
-//         }
-//     );
+function cutParagraph(content)
+{
+    result = "<pl>" + content.replaceAll("。", "。</pl><pl>");
     
-//     if (!result.endsWith("</div>"))
-//     {result += "</div>";}
+    if (result.endsWith("<pl>"))
+    {result = result.slice(0, -4);}
+    else
+    {result = result + "</pl>";}
 
-//     return result;
-// }
-
-// function cutParagraphs()
-// {
-//     qa("p").forEach
-//     (
-//         (el) =>
-//         {
-//             call_jieba_cut
-//             (
-//                 el.innerHTML,
-//                 result =>
-//                 {el.innerHTML = arrayToLines(result, el.width, el.style.fontSize);}
-//             );
-//         }
-//     )
-// }
+    console.log(result);
+    
+    return result;
+}
 
 /* main() */
 
@@ -104,7 +71,7 @@ window.addEventListener
     () =>
     {
         determineNavbar();
-        // cutParagraphs();
+        cutParagraphs();
     }
 )
 

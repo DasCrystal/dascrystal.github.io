@@ -9,17 +9,34 @@ html
     /* height: 100%; */
 }
 
+img
+{
+    max-height: 90vh;
+    width: auto;
+}
+
+a
+{
+    text-decoration: none;
+    font-size: 1.8em;
+    font-weight: 800;
+
+    color: black;
+}
+
 *
 {
     margin: 0;
     box-sizing: border-box;
 
     font-family: "Noto Sans TC", sans-serif;
+
+    scrollbar-width: none;
 }
 
-::-webkit-scrollbar
+pl /* possible line */
 {
-    display: none;
+    display: inline-block;
 }
 
 @keyframes slideleft
@@ -40,11 +57,11 @@ html
     {transform: translateX(1vw);}
 }
 
-@keyframes slideup
+@keyframes titleslideup
 {
     0%
-    {transform: translateY(5vw);}
+    {transform: translateY(5vw) scale(0.7);}
 
     100%
-    {transform: translateY(0);}
+    {transform: translateY(0) scale(0.7);}
 }
