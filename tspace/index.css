@@ -1,0 +1,139 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
+
+*
+{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root
+{
+    font-family: 'Google Sans Code';
+
+    body
+    {
+        --bgcolor: white;
+        --fgcolor: black;
+
+        display: grid;
+        grid-template:
+        "W W A" 1fr
+        "T T N" 1fr /
+        1fr 1fr 1fr ;
+
+        height: 100vh;
+        width:  100vw;
+
+        padding: 100px;
+
+        background-color: var(--bgcolor);
+        color: var(--fgcolor);
+
+        transition: color background-color;
+    }
+}
+
+#wordArea
+{
+    grid-area: W;
+    align-content: center;
+    z-index: 10;
+    --fsize: 100px;
+
+    #theWord, #wordSuffix
+    {
+        font-size: var(--fsize);
+        font-weight: 500;
+    }
+
+    #wordSuffix
+    {
+        white-space: pre-wrap;
+    }
+
+    .wordPartA
+    {
+        color: var(--fgcolor);
+    }
+
+    .wordPartB
+    {
+        color: var(--bgcolor);
+    }
+    .wordPartB::before
+    {
+        content: attr(content);
+
+        position: absolute;
+        z-index: -1;
+
+        color: transparent;
+        -webkit-text-stroke-width: 5px;
+        -webkit-text-stroke-color: var(--fgcolor);
+    }
+
+    #theScore
+    {
+        cursor: pointer;
+
+        #wordScore
+        {
+            font-size: 100px;
+            font-weight: 100;
+        }
+
+        #charScore
+        {    
+            font-size: 50px;
+            font-weight: 100;
+        }
+    }
+}
+
+#titleArea
+{
+    grid-area: T;
+    align-content: end;
+
+    cursor: pointer;
+
+    div:nth-child(1)
+    {
+        font-size: 50px;
+        font-weight: 500;
+    }
+
+    div:nth-child(2)
+    {
+        font-size: 20px;
+        font-weight: 300;
+    }
+}
+
+#numberArea
+{
+    grid-area: N;
+    align-content: center;
+    text-align: center;
+
+    background-color: var(--fgcolor);
+    color: var(--bgcolor);
+
+    div:nth-child(1)
+    {
+        font-size: 20px;
+        font-weight: 300;
+    }
+
+    div:nth-child(2)
+    {
+        font-size: 50px;
+        font-weight: 500;
+    }
+}
+
+#aboutArea
+{
+    grid-area: A;
+}
