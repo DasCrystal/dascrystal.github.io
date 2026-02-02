@@ -5,6 +5,7 @@ class TheWord {
     word; progress;
     totalWords = -1;
     correctTypes = 0; wrongTypes = 0;
+    totalCorrectTypes = 0; totalWrongTypes = 0;
     records = [];
 
     constructor(words) {
@@ -35,7 +36,7 @@ class TheWord {
 
     #updateScore() {
         document.querySelector("#wordScore").textContent = this.totalWords;
-        document.querySelector("#charScore").textContent = this.correctTypes - this.wrongTypes;
+        document.querySelector("#charScore").textContent = this.totalCorrectTypes - this.totalWrongTypes;
     }
 
     appendRecord(record = null) {
@@ -51,9 +52,9 @@ class TheWord {
         
         this.records.push(record);
 
-        if (this.records.length > 10) {
-            this.records.splice(1, 1);
-        }
+        // if (this.records.length > 10) {
+        //     this.records.splice(1, 1);
+        // }
 
         this.whileTimer = 0;
         this.correctTypes = 0;
@@ -64,7 +65,9 @@ class TheWord {
             table += `<li>${record}</li>`;
         }
 
-        document.querySelector("#recordArea").innerHTML = table;
+        let theRecord = document.querySelector("#theRecord");
+        theRecord.innerHTML = table;
+        theRecord.scrollTo(0, theRecord.scrollHeight);
     }
 
     #onComplete() {
@@ -84,32 +87,43 @@ class TheWord {
 
         // recording
         if (this.totalWords == 0) {
-            this.appendRecord("POINT M:S SPEEDrt/s ACCRATE%")
+            this.appendRecord("POINT M:S SPEEDrt/s ACC.RATE%")
         }
         else if (this.totalWords % 10 == 0) {
             this.appendRecord();
             this.timing = false;
+            
         }
     }
 
     check(input) {
 
-        let result;
+        if (!this.timing) {
+            if (input == "Enter") {
+                this.timing = true;
+                document.querySelector("#wordSuffix").textContent = "";
+            }
+            return;
+        }
+
         if (input == " " || input.toUpperCase() == this.#currentChar().toUpperCase()) {
             this.progress += 1;
             this.correctTypes += 1;
+            this.totalCorrectTypes += 1;
             if (this.progress >= this.word.length) {
                 this.#onComplete();
             }
-            result = true;
+
+            document.querySelector("#wordSuffix").textContent = "";
+            document.querySelector("#theWord").innerHTML = this.genElement();
         } else {
             this.wrongTypes += 1;
-            result = false;
+            this.totalWrongTypes += 1;
+
+            document.querySelector("#wordSuffix").innerHTML = `<spam content=" ${input}?"> ${input}?</spam>`;
         }
 
         this.#updateScore();
-
-        return result;
     }
     
     genElement() {
@@ -156,14 +170,7 @@ window.onload = async function () {
     window.addEventListener(
         'keydown',
         (event) => {
-            theWord.timing = true;
-
-            if (theWord.check(event.key)) {
-                document.querySelector("#wordSuffix").textContent = "";
-                document.querySelector("#theWord").innerHTML = theWord.genElement();
-            } else {
-                document.querySelector("#wordSuffix").innerHTML = `<spam content=" ${event.key}?"> ${event.key}?</spam>`;
-            }
+            theWord.check(event.key);
         }
     );
 
@@ -212,7 +219,10 @@ window.onload = async function () {
                     theWord.whileTimer += 1;
                     part = 0;
                 }
+            } else {
+                document.querySelector("#wordSuffix").textContent = " PRESS ENTER";
             }
+
             let time = theWord.getTimerTime(theWord.totalTimer);
             let state = theWord.timing ? "" : "||"
             document.querySelector("#theTimer").textContent = `${time.mintue}:${time.second} ${state}`;
