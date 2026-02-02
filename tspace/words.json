@@ -4723,12 +4723,6 @@
         "path": "./voice/freeze.mp3"
     },
     {
-        "word": "[计算机] 冻",
-        "chinese": "[计算机] 冻结",
-        "online": "http://dict.youdao.com/dictvoice?audio=[计算机] 冻",
-        "path": "./voice/[计算机] 冻.mp3"
-    },
-    {
         "word": "intend",
         "chinese": "v. 打算 vt. 想要,打算,计划",
         "online": "http://dict.youdao.com/dictvoice?audio=intend",
