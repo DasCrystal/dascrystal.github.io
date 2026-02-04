@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-tw">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name=viewport content="width=device-width, initial-scale=1.0">
@@ -9,23 +9,24 @@
     <title>Typing Space</title>
 </head>
 <body>
+    <div id="hint"></div>
     <div id="wordArea">
-        <span id="theWord"></span>
+        <spam id="theWord" hint="click to toggle fullscreen"></spam>
         <br>
-        <span id="theNumber">?</span><span id="wordSuffix"></span>
+        <spam id="theNumber">?</spam><spam id="wordSuffix"></spam>
     </div>
-    <div id="scoreArea">
+    <div id="scoreArea" hint="the time you typed">
         <div id="theScore">
-            <div id="wordScore"></div>
-            <div id="charScore"></div>
+            <div id="wordScore" hint="click to display score by typed chraracter"></div>
+            <div id="charScore" hint="click to display score by typed word"></div>
         </div>
         <div id="theTimer"></div>
     </div>
-    <div id="titleArea">
+    <div id="titleArea" hint="click to change theme">
         <div>Typing Space</div>
         <div>by DasCrystal</div>
     </div>
-    <div id="recordArea">
+    <div id="recordArea" hint="click to toggle the size of typing lap (between 10, 100 & 1000)">
         <ul id="theRecord"></ul>
     </div>
 </body>
