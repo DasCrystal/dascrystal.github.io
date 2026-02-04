@@ -7,6 +7,21 @@
     box-sizing: border-box;
 }
 
+#hint
+{
+    display: none;
+    position: fixed;
+    z-index: 100;
+
+    padding: 10px;
+
+    font-size: 25px;
+    white-space: pre-line;
+
+    border: 5px var(--fgcolor) solid;
+    background-color: var(--bgcolor);
+}
+
 :root
 {
     font-family: 'Google Sans Code';
@@ -154,11 +169,11 @@
 
         height: calc(var(--fsize) * 4 + var(--fsize) * 0.5);
         overflow: scroll;
+        scrollbar-width: none;
         
         li
         {
             white-space: pre-wrap;
         }
-    }
-    
+    }   
 }

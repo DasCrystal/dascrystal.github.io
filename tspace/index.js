@@ -2,11 +2,42 @@
 class TheWord {
     
     Words;
-    word; progress;
+    word; index; progress;
     totalWords = -1;
     correctTypes = 0; wrongTypes = 0;
     totalCorrectTypes = 0; totalWrongTypes = 0;
-    records = [];
+    records = ["POINT M:S SPEEDrt/s ACC.RATE%"];
+    lap = 10;
+
+    save() {
+        let data = {
+            word: this.word,
+            index: this.index,
+            totalWords: this.totalWords,
+            totalCorrectTypes: this.totalCorrectTypes,
+            totalTimer: this.totalTimer,
+            records: this.records,
+            lap: this.lap,
+        };
+        localStorage.setItem("data", JSON.stringify(data)); // console.log("save:", data)
+    }
+
+    load() {
+        let data = JSON.parse(localStorage.getItem("data")); // console.log("load:", data)
+        if (data == null) {
+            return;
+        }
+        this.word = data.word;
+        this.index = data.index;
+        this.#updateWord();
+        this.totalWords = data.totalWords;
+        this.totalCorrectTypes = data.totalCorrectTypes;
+        this.#updateScore();
+        this.records = data.records;
+        this.#updateRecord();
+        this.totalTimer = data.totalTimer;
+        this.lap = data.lap;
+    }
 
     constructor(words) {
         this.Words = words;
@@ -25,9 +56,8 @@ class TheWord {
     }
 
     #nextWord() {
-        let index = Math.floor(Math.random() * 10000 % this.Words.length);
-        this.word = this.Words[index].word;
-        return index;
+        this.index = Math.floor(Math.random() * 10000 % this.Words.length);
+        this.word = this.Words[this.index].word;
     }
 
     #currentChar() {
@@ -36,30 +66,15 @@ class TheWord {
 
     #updateScore() {
         document.querySelector("#wordScore").textContent = this.totalWords;
-        document.querySelector("#charScore").textContent = this.totalCorrectTypes - this.totalWrongTypes;
+        document.querySelector("#charScore").textContent = this.totalCorrectTypes;
     }
 
-    appendRecord(record = null) {
+    #updateWord() {
+        document.querySelector("#theNumber").textContent = `No.${this.index}`;
+        document.querySelector("#theWord").innerHTML = this.genElement();
+    }
 
-        if (record == null) {
-            let score = this.totalWords;
-            let time  = this.getTimerTime(this.whileTimer);
-            let speed = Math.floor((this.correctTypes / this.whileTimer) * 10) / 10;
-            let rate  = Math.floor(this.correctTypes / (this.correctTypes + this.wrongTypes) * 1000) / 10.0;
-            rate = !rate ? 0 : rate;
-            record = `${score} ${time.mintue}:${time.second} ${speed}rt/s ${rate}%`;
-        }
-        
-        this.records.push(record);
-
-        // if (this.records.length > 10) {
-        //     this.records.splice(1, 1);
-        // }
-
-        this.whileTimer = 0;
-        this.correctTypes = 0;
-        this.wrongTypes = 0;
-
+    #updateRecord() {
         let table = "";
         for (let record of this.records) {
             table += `<li>${record}</li>`;
@@ -70,15 +85,31 @@ class TheWord {
         theRecord.scrollTo(0, theRecord.scrollHeight);
     }
 
-    #onComplete() {
+    appendRecord(record = null) {
+        if (record == null) {
+            let score = this.totalWords;
+            let time  = this.getTimerTime(this.whileTimer);
+            let speed = Math.floor((this.correctTypes / this.whileTimer) * 10) / 10;
+            let rate  = Math.floor(this.correctTypes / (this.correctTypes + this.wrongTypes) * 1000) / 10.0;
+            rate = !rate ? 0 : rate;
+            record = `${score} ${time.mintue}:${time.second} ${speed}rt/s ${rate}%`;
+        }
+        
+        this.whileTimer = 0;
+        this.correctTypes = 0;
+        this.wrongTypes = 0;
 
+        this.records.push(record);
+        this.#updateRecord();
+    }
+
+    #onComplete() {
         this.totalWords += 1;
-        let index = this.#nextWord();
         
         this.progress = 0;
         this.isCurrentWordCorrect = true;
-        document.querySelector("#theNumber").textContent = `No.${index}`;
-        document.querySelector("#theWord").innerHTML = this.genElement();
+        this.#nextWord();
+        this.#updateWord();
         this.#updateScore();
 
         // resize for jumbo word
@@ -86,13 +117,9 @@ class TheWord {
         document.querySelector("#wordArea").style.setProperty("--fsize", `${fsize}px`);
 
         // recording
-        if (this.totalWords == 0) {
-            this.appendRecord("POINT M:S SPEEDrt/s ACC.RATE%")
-        }
-        else if (this.totalWords % 10 == 0) {
+        if (this.totalWords != 0 && this.totalWords % this.lap == 0) {
             this.appendRecord();
             this.timing = false;
-            
         }
     }
 
@@ -112,6 +139,7 @@ class TheWord {
             this.totalCorrectTypes += 1;
             if (this.progress >= this.word.length) {
                 this.#onComplete();
+                this.save();
             }
 
             document.querySelector("#wordSuffix").textContent = "";
@@ -163,7 +191,7 @@ window.onload = async function () {
     document.querySelector("#theWord").innerHTML = `<span class='wordPartB' content="Loading...">Loading...</span>`
 
     let Words = await fetch('./words.json').then(resp => resp.json());
-    let theWord = new TheWord(Words);
+    let theWord = new TheWord(Words); theWord.load();
 
     // main mechnism
 
@@ -187,17 +215,15 @@ window.onload = async function () {
             toDisplay = toDisplay == 1 ? 2 : 1;
         }
     )
-
     score.click();
 
     // click word to full screen
 
-    let word = document.querySelector("#wordArea");
+    let word = document.querySelector("#theWord");
 
     word.addEventListener(
         'click',
-        (event) =>  {
-
+        () =>  {
             if (!document.fullscreenElement) {
                 document.body.requestFullscreen();
             } else {
@@ -230,6 +256,59 @@ window.onload = async function () {
         100
     );
 
-    // start typing test
+    // mouse track
+    
+    let pointer = {x: 0, y: 0};
+    document.addEventListener(
+        'mousemove',
+        (event) => {
+            let {x, y} = event;
+            pointer = {x, y};
+            hintElement.style.setProperty("top", `${y+25}px`);
+            hintElement.style.setProperty("left", `${x+25}px`);
+        }
+    );
 
+    // hinting
+
+    let hintElement = document.querySelector("#hint");
+    function updateHintContent() {
+        let hints = document.elementsFromPoint(pointer.x, pointer.y);
+        for (let hint of hints) {
+            let hintContent = hint.getAttribute("hint");
+            if (hintContent != null) {
+                hintElement.style.setProperty("display", "block");
+                hintElement.textContent = hintContent;
+                hints = null;
+                break;
+            }
+        }
+        if (hints != null) {
+            hintElement.style.setProperty("display", "none");
+            hintElement.textContent = "";
+        }
+    }
+    window.setInterval(
+        () => {
+            updateHintContent();
+        },
+        100
+    );
+
+    // lap changing
+
+    if (!((theWord.records.at(-1) || "").startsWith("Lap size"))) {
+        theWord.appendRecord(`Lap size is ${theWord.lap} words now.`);
+    }
+    let recordArea = document.querySelector("#recordArea");
+    let levels = [10, 100, 1000], level = levels.indexOf(theWord.lap);
+    recordArea.addEventListener(
+        'click',
+        () => {
+            level = (level + 1) % levels.length;
+            theWord.lap = levels[level];
+            theWord.appendRecord(`Lap size is ${theWord.lap} words now.`);
+            theWord.save();
+        }
+    );
 }
