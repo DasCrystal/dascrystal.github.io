@@ -75,6 +75,11 @@
         color: var(--fgcolor);
     }
 
+    .wrongTyping
+    {
+        color: var(--errcolor);
+    }
+
     .wordPartB
     {
         color: var(--bgcolor);
@@ -148,6 +153,11 @@
         {
             font-size: 50px;
         }
+    }
+
+    #theTimer
+    {
+        font-size: 25px;
     }
 }
 
