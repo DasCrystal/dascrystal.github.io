@@ -30,6 +30,7 @@
     {
         --bgcolor: white;
         --fgcolor: black;
+        --errcolor: red;
 
         display: grid;
         grid-template:
@@ -92,7 +93,7 @@
         z-index: -1;
 
         color: transparent;
-        -webkit-text-stroke-width: 5px;
+        -webkit-text-stroke-width: calc(var(--fsize) / 20);
         -webkit-text-stroke-color: var(--fgcolor);
     }
 
