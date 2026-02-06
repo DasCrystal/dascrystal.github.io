@@ -1,8 +1,14 @@
 
+const themes = [
+        ["antiquewhite", "black", "darkred"],
+        ["black", "antiquewhite", "red"],
+    ];
+
 class TheWord {
     
     Words;
     word; index; progress;
+    wrongTyping = "";
     totalWords = -1;
     correctTypes = 0; wrongTypes = 0;
     totalCorrectTypes = 0; totalWrongTypes = 0;
@@ -72,6 +78,10 @@ class TheWord {
     #updateWord() {
         document.querySelector("#theNumber").textContent = `No.${this.index}`;
         document.querySelector("#theWord").innerHTML = this.genElement();
+        // resize for large word area
+        let wordSize = document.querySelector("#theWord").textContent.length;
+        let fSize = wordSize > 10 ? 1000 / wordSize : 100;
+        document.querySelector("#wordArea").style.setProperty("--fsize", `${fSize}px`);
     }
 
     #updateRecord() {
@@ -89,7 +99,7 @@ class TheWord {
         if (record == null) {
             let score = this.totalWords;
             let time  = this.getTimerTime(this.whileTimer);
-            let speed = Math.floor((this.correctTypes / this.whileTimer) * 10) / 10;
+            let speed = Math.floor((this.correctTypes / this.whileTimer == 0 ? 1 : this.whileTimer) * 10) / 10;
             let rate  = Math.floor(this.correctTypes / (this.correctTypes + this.wrongTypes) * 1000) / 10.0;
             rate = !rate ? 0 : rate;
             record = `${score} ${time.mintue}:${time.second} ${speed}rt/s ${rate}%`;
@@ -112,19 +122,15 @@ class TheWord {
         this.#updateWord();
         this.#updateScore();
 
-        // resize for jumbo word
-        let fsize = this.word.length >= 10 ? 90 : 100;
-        document.querySelector("#wordArea").style.setProperty("--fsize", `${fsize}px`);
-
-        // recording
+        // give & record segmental result
         if (this.totalWords != 0 && this.totalWords % this.lap == 0) {
             this.appendRecord();
             this.timing = false;
+            this.save();
         }
     }
 
     check(input) {
-
         if (!this.timing) {
             if (input == "Enter") {
                 this.timing = true;
@@ -133,29 +139,41 @@ class TheWord {
             return;
         }
 
-        if (input == " " || input.toUpperCase() == this.#currentChar().toUpperCase()) {
+        if (input == "Backspace") {
+            this.wrongTyping = this.wrongTyping.substring(0, this.wrongTyping.length - 1);
+            this.#updateWord();
+            return;
+        }
+        
+        if (input.length != 1) {
+            document.querySelector("#wordSuffix").innerHTML = `<spam content=" ${input}?"> ${input}?</spam>`;
+            return;
+        } else {
+            document.querySelector("#wordSuffix").innerHTML = "";
+        }
+
+        if (!this.wrongTyping && (input == " " || input.toUpperCase() == this.#currentChar().toUpperCase())) {
             this.progress += 1;
             this.correctTypes += 1;
             this.totalCorrectTypes += 1;
             if (this.progress >= this.word.length) {
                 this.#onComplete();
-                this.save();
             }
 
             document.querySelector("#wordSuffix").textContent = "";
-            document.querySelector("#theWord").innerHTML = this.genElement();
+            this.#updateWord();
         } else {
+            this.wrongTyping += input;
             this.wrongTypes += 1;
             this.totalWrongTypes += 1;
-
-            document.querySelector("#wordSuffix").innerHTML = `<spam content=" ${input}?"> ${input}?</spam>`;
+            this.#updateWord();
         }
 
         this.#updateScore();
     }
     
     genElement() {
-        return `<span class="wordPartA">${this.word.slice(0, this.progress)}</span><span class="wordPartB" content="${this.word.slice(this.progress)}">${this.word.slice(this.progress)}</span>`;
+        return `<span class="wordPartA">${this.word.slice(0, this.progress)}</span><span class="wrongTyping">${this.wrongTyping}</span><span class="wordPartB" content="${this.word.slice(this.progress)}">${this.word.slice(this.progress)}</span>`;
     }
 }
 
@@ -164,16 +182,12 @@ window.onload = async function () {
     // Themes
 
     let theme  = parseInt(localStorage.getItem("theme")) || 0;
-    let themes = [
-        ["antiquewhite", "black"],
-        ["black", "antiquewhite"],
-    ];
     let themeButton = document.querySelector("#titleArea div:nth-child(1)");
-    
     function paint(theme)
     {
         document.body.style.setProperty("--bgcolor",  themes[theme][0]);
         document.body.style.setProperty("--fgcolor",  themes[theme][1]);
+        document.body.style.setProperty("--errcolor", themes[theme][2]);
     }
     paint(theme);
 
@@ -308,7 +322,12 @@ window.onload = async function () {
             level = (level + 1) % levels.length;
             theWord.lap = levels[level];
             theWord.appendRecord(`Lap size is ${theWord.lap} words now.`);
-            theWord.save();
+
+            if (!theWord.timing) {
+                theWord.save();
+            } else {
+                theWord.appendRecord(`(Will save when lap ends later.)`)
+            }
         }
     );
 }
