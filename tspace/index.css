@@ -165,20 +165,21 @@
 #recordArea
 {
     grid-area: R;
-    align-content: center;
-    
+
     --fsize: 25px;
     font-size: var(--fsize);
     font-weight: 100;
     
     border-left: 5px var(--fgcolor) solid;
     border-top: 5px var(--fgcolor) dotted;
+    padding-left: var(--fsize);
 
     #theRecord
     {
         list-style: none;
+        padding-left: 0;
 
-        height: calc(var(--fsize) * 4 + var(--fsize) * 0.5);
+        height: calc(var(--fsize) * 6 + var(--fsize) * 0.5);
         overflow: scroll;
         scrollbar-width: none;
         
