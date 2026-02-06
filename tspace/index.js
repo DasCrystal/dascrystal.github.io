@@ -1,7 +1,7 @@
 
 const themes = [
-        ["antiquewhite", "black", "darkred"],
-        ["black", "antiquewhite", "red"],
+        ["antiquewhite", "black", "goldenrod"],
+        ["black", "antiquewhite", "gold"],
     ];
 
 class TheWord {
@@ -99,7 +99,7 @@ class TheWord {
         if (record == null) {
             let score = this.totalWords;
             let time  = this.getTimerTime(this.whileTimer);
-            let speed = Math.floor((this.correctTypes / this.whileTimer == 0 ? 1 : this.whileTimer) * 10) / 10;
+            let speed = Math.floor((this.correctTypes / (this.whileTimer == 0 ? 1 : this.whileTimer)) * 10) / 10;
             let rate  = Math.floor(this.correctTypes / (this.correctTypes + this.wrongTypes) * 1000) / 10.0;
             rate = !rate ? 0 : rate;
             record = `${score} ${time.mintue}:${time.second} ${speed}rt/s ${rate}%`;
@@ -159,7 +159,6 @@ class TheWord {
             if (this.progress >= this.word.length) {
                 this.#onComplete();
             }
-
             document.querySelector("#wordSuffix").textContent = "";
             this.#updateWord();
         } else {
