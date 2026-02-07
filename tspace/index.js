@@ -146,7 +146,7 @@ class TheWord {
         }
         
         if (input.length != 1) {
-            document.querySelector("#wordSuffix").innerHTML = `<spam content=" ${input}?"> ${input}?</spam>`;
+            document.querySelector("#wordSuffix").innerHTML = `<span content=" ${input}?"> ${input}?</span>`;
             return;
         } else {
             document.querySelector("#wordSuffix").innerHTML = "";
