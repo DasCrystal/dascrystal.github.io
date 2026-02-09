@@ -135,22 +135,22 @@ class TheWord {
             if (input == "Enter") {
                 this.timing = true;
                 document.querySelector("#wordSuffix").textContent = "";
-            }
+            } 
             return;
         }
 
-        if (input == "Backspace") {
-            this.wrongTyping = this.wrongTyping.substring(0, this.wrongTyping.length - 1);
-            this.#updateWord();
-            return;
-        }
+        // if (input == "Backspace") {
+        //     this.wrongTyping = this.wrongTyping.substring(0, this.wrongTyping.length - 1);
+        //     this.#updateWord();
+        //     return;
+        // }
         
-        if (input.length != 1) {
-            document.querySelector("#wordSuffix").innerHTML = `<span content=" ${input}?"> ${input}?</span>`;
-            return;
-        } else {
-            document.querySelector("#wordSuffix").innerHTML = "";
-        }
+        // if (input.length != 1) {
+        //     document.querySelector("#wordSuffix").innerHTML = `<span content=" ${input}?"> ${input}?</span>`;
+        //     return;
+        // } else {
+        //     document.querySelector("#wordSuffix").innerHTML = "";
+        // }
 
         if (!this.wrongTyping && (input == " " || input.toUpperCase() == this.#currentChar().toUpperCase())) {
             this.progress += 1;
@@ -162,7 +162,8 @@ class TheWord {
             document.querySelector("#wordSuffix").textContent = "";
             this.#updateWord();
         } else {
-            this.wrongTyping += input;
+            // this.wrongTyping += input;
+            document.querySelector("#wordSuffix").innerHTML = `<span content=" ${input}?"> ${input}?</span>`;
             this.wrongTypes += 1;
             this.totalWrongTypes += 1;
             this.#updateWord();
