@@ -65,6 +65,11 @@
 
     padding-right: 100px;
 
+    #wordSuffix::before
+    {
+        content: " ";
+    }
+
     #theWord, #wordSuffix
     {
         font-size: var(--fsize);
@@ -97,7 +102,12 @@
         -webkit-text-stroke-color: var(--fgcolor);
     }
 
-    #theNumber, #wordSuffix
+    #fullWord
+    {
+        display: none;;
+    }
+
+    #theNumber, #wordSuffix, #fullWord
     {
         font-size: 50px;
         font-weight: 500;
