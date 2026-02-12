@@ -164,7 +164,8 @@ class TheWord {
             this.#updateWord();
         } else {
             // this.wrongTyping += input;
-            document.querySelector("#wordSuffix").innerHTML = `<span content=" ${input}?">${input}?</span>`;
+            // document.querySelector("#wordSuffix").innerHTML = `<span content=" ${input}?">${input}?</span>`;
+            document.querySelector("#wordSuffix").innerHTML = `!`;
             this.wrongTypes += 1;
             this.totalWrongTypes += 1;
             this.#updateWord();
