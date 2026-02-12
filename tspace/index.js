@@ -78,6 +78,7 @@ class TheWord {
     #updateWord() {
         document.querySelector("#theNumber").textContent = `No.${this.index}`;
         document.querySelector("#theWord").innerHTML = this.genElement();
+        document.querySelector("#fullWord").textContent = `"${this.word}"`;
         // resize for large word area
         let wordSize = document.querySelector("#theWord").textContent.length;
         let fSize = wordSize > 10 ? 1000 / wordSize : 100;
@@ -134,7 +135,7 @@ class TheWord {
         if (!this.timing) {
             if (input == "Enter") {
                 this.timing = true;
-                document.querySelector("#wordSuffix").textContent = "";
+                document.querySelector("#wordSuffix").textContent = " ";
             } 
             return;
         }
@@ -159,11 +160,11 @@ class TheWord {
             if (this.progress >= this.word.length) {
                 this.#onComplete();
             }
-            document.querySelector("#wordSuffix").textContent = "";
+            document.querySelector("#wordSuffix").textContent = " ";
             this.#updateWord();
         } else {
             // this.wrongTyping += input;
-            document.querySelector("#wordSuffix").innerHTML = `<span content=" ${input}?"> ${input}?</span>`;
+            document.querySelector("#wordSuffix").innerHTML = `<span content=" ${input}?">${input}?</span>`;
             this.wrongTypes += 1;
             this.totalWrongTypes += 1;
             this.#updateWord();
@@ -260,7 +261,7 @@ window.onload = async function () {
                     part = 0;
                 }
             } else {
-                document.querySelector("#wordSuffix").textContent = " PRESS ENTER";
+                document.querySelector("#wordSuffix").textContent = "PRESS ENTER";
             }
 
             let time = theWord.getTimerTime(theWord.totalTimer);
