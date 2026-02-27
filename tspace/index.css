@@ -154,16 +154,7 @@
     {
         cursor: pointer;
         font-weight: 100;
-
-        #wordScore
-        {
-            font-size: 100px;
-        }
-
-        #charScore
-        {
-            font-size: 50px;
-        }
+        font-size: 100px;
     }
 
     #theTimer

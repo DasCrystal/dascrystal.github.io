@@ -71,8 +71,7 @@ class TheWord {
     }
 
     #updateScore() {
-        document.querySelector("#wordScore").textContent = this.totalWords;
-        document.querySelector("#charScore").textContent = this.totalCorrectTypes;
+        document.querySelector("#theScore").textContent = this.totalWords;
     }
 
     #updateWord() {
@@ -158,19 +157,18 @@ class TheWord {
             this.correctTypes += 1;
             this.totalCorrectTypes += 1;
             if (this.progress >= this.word.length) {
+                document.querySelector("#wordSuffix").textContent = " ";
                 this.#onComplete();
             }
-            document.querySelector("#wordSuffix").textContent = " ";
-            this.#updateWord();
         } else {
             // this.wrongTyping += input;
             // document.querySelector("#wordSuffix").innerHTML = `<span content=" ${input}?">${input}?</span>`;
-            document.querySelector("#wordSuffix").innerHTML = `!`;
+            document.querySelector("#wordSuffix").textContent += `!`;
             this.wrongTypes += 1;
             this.totalWrongTypes += 1;
-            this.#updateWord();
         }
 
+        this.#updateWord();
         this.#updateScore();
     }
     
@@ -226,9 +224,7 @@ window.onload = async function () {
     score.addEventListener(
         'click',
         () => {
-            document.querySelector(`#theScore div:nth-child(1)`).style.setProperty("display", `${toDisplay == 1 ? "block" : "none"}`);
-            document.querySelector(`#theScore div:nth-child(2)`).style.setProperty("display", `${toDisplay == 2 ? "block" : "none"}`);
-            toDisplay = toDisplay == 1 ? 2 : 1;
+            
         }
     )
     score.click();
