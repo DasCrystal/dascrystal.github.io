@@ -4,16 +4,16 @@ const themes = [
         ["black", "antiquewhite", "gold"],
     ];
 
-class TheWord {
-    
+class TheWord
+{    
     Words;
     word; index; progress;
     wrongTyping = "";
     totalWords = -1;
     correctTypes = 0; wrongTypes = 0;
     totalCorrectTypes = 0; totalWrongTypes = 0;
-    records = ["POINT M:S SPEEDrt/s ACC.RATE%"];
-    lap = 10;
+    records = ['WHEN TIME  SPEED  ACC', '     WT  + RT   = TT']; // "POINT M:S SPEEDrt/s ACC.RATE%"
+    lap = 10; finishLine = 10; // in words
 
     save() {
         let data = {
@@ -42,7 +42,7 @@ class TheWord {
         this.records = data.records;
         this.#updateRecord();
         this.totalTimer = data.totalTimer;
-        this.lap = data.lap;
+        this.updateLap(data.lap);
     }
 
     constructor(words) {
@@ -84,15 +84,26 @@ class TheWord {
         document.querySelector("#wordArea").style.setProperty("--fsize", `${fSize}px`);
     }
 
-    #updateRecord() {
+    #updateRecord(text = null)
+    {
         let table = "";
+
         for (let record of this.records) {
             table += `<li>${record}</li>`;
         }
-
+        if (text != null) {
+            table += `<li>${text}</li>`
+        }
+        
         let theRecord = document.querySelector("#theRecord");
         theRecord.innerHTML = table;
         theRecord.scrollTo(0, theRecord.scrollHeight);
+    }
+
+    updateLap(lap = null) {
+        this.lap = lap == null ? this.lap : lap;
+        this.finishLine = this.totalWords + this.lap;
+        document.querySelector('#theFinish').textContent = `-> ${this.finishLine}`;
     }
 
     appendRecord(record = null) {
@@ -100,17 +111,20 @@ class TheWord {
             let score = this.totalWords;
             let time  = this.getTimerTime(this.whileTimer);
             let speed = Math.floor((this.correctTypes / (this.whileTimer == 0 ? 1 : this.whileTimer)) * 10) / 10;
-            let rate  = Math.floor(this.correctTypes / (this.correctTypes + this.wrongTypes) * 1000) / 10.0;
+            let corrects = this.correctTypes;
+            let wrongs   = this.wrongTypes;
+            let rate  = Math.floor(corrects / (corrects + wrongs) * 1000) / 10.0;
             rate = !rate ? 0 : rate;
-            record = `${score} ${time.mintue}:${time.second} ${speed}rt/s ${rate}%`;
+            this.records.push(`${score} ${time.mintue}:${time.second} ${speed}rt/s ${rate}%`);
+            this.records.push(`${' '.repeat(score.toString().length)} ${corrects} + ${wrongs}! = ${corrects + wrongs} chars.`);
+            this.#updateRecord();
+        } else {
+            this.#updateRecord(record);
         }
         
         this.whileTimer = 0;
         this.correctTypes = 0;
         this.wrongTypes = 0;
-
-        this.records.push(record);
-        this.#updateRecord();
     }
 
     #onComplete() {
@@ -123,10 +137,11 @@ class TheWord {
         this.#updateScore();
 
         // give & record segmental result
-        if (this.totalWords != 0 && this.totalWords % this.lap == 0) {
+        if (this.totalWords != 0 && this.totalWords == this.finishLine) {
             this.appendRecord();
             this.timing = false;
             this.save();
+            this.updateLap();
         }
     }
 
@@ -159,6 +174,9 @@ class TheWord {
             if (this.progress >= this.word.length) {
                 document.querySelector("#wordSuffix").textContent = " ";
                 this.#onComplete();
+                new Audio('./typewriter-hard-click.wav').play();
+            } else {
+                new Audio('./typewriter-soft-click.wav').play();
             }
         } else {
             // this.wrongTyping += input;
@@ -309,23 +327,23 @@ window.onload = async function () {
 
     // lap changing
 
-    if (!((theWord.records.at(-1) || "").startsWith("Lap size"))) {
-        theWord.appendRecord(`Lap size is ${theWord.lap} words now.`);
-    }
+    theWord.appendRecord(`Lap size is ${theWord.lap} words now.`);
     let recordArea = document.querySelector("#recordArea");
     let levels = [10, 100, 1000], level = levels.indexOf(theWord.lap);
     recordArea.addEventListener(
         'click',
         () => {
             level = (level + 1) % levels.length;
-            theWord.lap = levels[level];
-            theWord.appendRecord(`Lap size is ${theWord.lap} words now.`);
+            theWord.updateLap(levels[level]);
+            let record = `Lap size is ${theWord.lap} words now.`;
 
             if (!theWord.timing) {
                 theWord.save();
             } else {
-                theWord.appendRecord(`(Will save when lap ends later.)`)
+                record += `\n(Will save on timer stops.)`;
             }
+
+            theWord.appendRecord(record);
         }
     );
 }

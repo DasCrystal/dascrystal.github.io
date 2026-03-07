@@ -152,12 +152,11 @@
 
     #theScore
     {
-        cursor: pointer;
         font-weight: 100;
         font-size: 100px;
     }
 
-    #theTimer
+    #theTimer, #theFinish
     {
         font-size: 25px;
     }
