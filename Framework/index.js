@@ -81,6 +81,10 @@
                     }
 
                     for (let attr of template.getAttributeNames()) {
+                        if (attr == 'style' || attr.startsWith(ATTR_PREFIX)) {
+                            continue;
+                        }
+                        
                         try {
                             this.setAttribute(attr, template.getAttribute(attr).trim());
                         } catch (DOMException) {
