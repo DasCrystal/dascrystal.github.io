@@ -72,7 +72,7 @@
 
                 connectedCallback()
                 {
-                    this.innerHTML = template.innerHTML;
+                    this.innerHTML += template.innerHTML;
 
                     for (let attr of this.getAttributeNames()) {
                         let actualAttr = ATTR_PREFIX + attr;
