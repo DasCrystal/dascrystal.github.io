@@ -31,10 +31,11 @@ class TheWord
     load() {
         let data = JSON.parse(localStorage.getItem("data")); // console.log("load:", data)
         if (data == null) {
-            return;
+            return false;
         }
         this.word = data.word;
         this.index = data.index;
+        this.progress = 0;
         this.#updateWord();
         this.totalWords = data.totalWords;
         this.totalCorrectTypes = data.totalCorrectTypes;
@@ -43,6 +44,7 @@ class TheWord
         this.#updateRecord();
         this.totalTimer = data.totalTimer;
         this.updateLap(data.lap);
+        return true;
     }
 
     constructor(words) {
@@ -223,29 +225,27 @@ window.onload = async function () {
     document.querySelector("#theWord").innerHTML = `<span class='wordPartB' content="Loading...">Loading...</span>`
 
     let Words = await fetch('./words.json').then(resp => resp.json());
-    let theWord = new TheWord(Words); theWord.load();
+    let theWord = new TheWord(Words);
+    
+    if (!theWord.load()) {
+        theWord.save();
+    }
 
     // main mechnism
 
     window.addEventListener(
         'keydown',
         (event) => {
-            theWord.check(event.key);
+            
+            if (event.key == 'Escape') {
+                // quick restart
+                theWord.load();
+                theWord.timing = false;
+            } else {
+                theWord.check(event.key);
+            }
         }
     );
-
-    // Score
-    
-    let toDisplay = 1;
-    let score = document.querySelector("#scoreArea");
-
-    score.addEventListener(
-        'click',
-        () => {
-            
-        }
-    )
-    score.click();
 
     // click word to full screen
 
