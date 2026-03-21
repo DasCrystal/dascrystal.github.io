@@ -36,29 +36,6 @@
                 continue;
             }
             
-            // let seeking = true, binding = false, bindName = '', newHTML = '';
-            // for (let theChar of template.innerHTML)
-            // {
-            //     switch (theChar)
-            //     {
-            //         case '<': {
-            //             seeking = false;
-            //         } break;
-
-            //         case '>': {
-            //             seeking = true;
-            //         } break;
-
-            //         case '{': {
-            //             binding = true;
-            //         } break;
-
-            //         case '}': {
-
-            //         } break;
-            //     }
-            // }
-            
             // temporary
             template.innerHTML = template.innerHTML.replaceAll(/\{(.*)\}/g, `<span bind-${ATTR_PREFIX}$1></span>`);
 
