@@ -49,7 +49,7 @@
 
                 connectedCallback()
                 {
-                    this.innerHTML += template.innerHTML;
+                    this.innerHTML = template.innerHTML + this.innerHTML;
 
                     for (let attr of this.getAttributeNames()) {
                         let actualAttr = ATTR_PREFIX + attr;
@@ -95,6 +95,10 @@
                     for (let sub of element.querySelectorAll('*')) {
                         sub.$ = element.$;
                     }
+
+                    // run onconnect
+                    let onConnect = this.getAttribute('onconnect');
+                    new Function(onConnect).call(this);
                 }
 
                 attributeChangedCallback(name, ov, nv)
