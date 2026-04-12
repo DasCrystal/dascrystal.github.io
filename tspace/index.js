@@ -15,6 +15,10 @@ class TheWord
     records = ['WHEN TIME  SPEED  ACC', '     WT  + RT   = TT']; // "POINT M:S SPEEDrt/s ACC.RATE%"
     lap = 10; finishLine = 10; // in words
 
+    whileTimer = 0;
+    totalTimer = 0;
+    timing = false;
+
     save() {
         let data = {
             word: this.word,
@@ -43,6 +47,7 @@ class TheWord
         this.records = data.records;
         this.#updateRecord();
         this.totalTimer = data.totalTimer;
+        this.whileTimer = 0;
         this.updateLap(data.lap);
         return true;
     }
@@ -52,9 +57,6 @@ class TheWord
         this.#onComplete();
     }
 
-    whileTimer = 0;
-    totalTimer = 0;
-    timing = false;
     getTimerTime(timer) {
         let mintue = `${Math.floor(timer / 60)}`;
         mintue = mintue.length == 1 ? "0" + mintue : mintue;
@@ -181,11 +183,10 @@ class TheWord
                 new Audio('./typewriter-soft-click.wav').play();
             }
         } else {
-            // this.wrongTyping += input;
-            // document.querySelector("#wordSuffix").innerHTML = `<span content=" ${input}?">${input}?</span>`;
-            document.querySelector("#wordSuffix").textContent += `!`;
             this.wrongTypes += 1;
             this.totalWrongTypes += 1;
+            document.querySelector("#wordSuffix").textContent =
+                this.wrongTypes <= 10 ? '!'.repeat(this.wrongTypes) : '!'.repeat(10) + ` (+${this.wrongTypes - 10})`;
         }
 
         this.#updateWord();
