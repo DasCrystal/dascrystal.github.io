@@ -116,11 +116,11 @@ class TheWord
             let time  = this.getTimerTime(this.whileTimer);
             let speed = Math.floor((this.correctTypes / (this.whileTimer == 0 ? 1 : this.whileTimer)) * 10) / 10;
             let corrects = this.correctTypes;
-            let wrongs   = this.wrongTypes;
+            let wrongs   = this.totalWrongTypes;
             let rate  = Math.floor(corrects / (corrects + wrongs) * 1000) / 10.0;
             rate = !rate ? 0 : rate;
             this.records.push(`${score} ${time.mintue}:${time.second} ${speed}rt/s ${rate}%`);
-            this.records.push(`${' '.repeat(score.toString().length)} ${corrects} + ${wrongs}! = ${corrects + wrongs} chars.`);
+            this.records.push(`${' '.repeat(score.toString().length)} ${corrects + wrongs} - ${wrongs}! = ${corrects} chars.`);
             this.#updateRecord();
         } else {
             this.#updateRecord(record);
@@ -128,13 +128,14 @@ class TheWord
         
         this.whileTimer = 0;
         this.correctTypes = 0;
-        this.wrongTypes = 0;
+        this.totalWrongTypes = 0;
     }
 
     #onComplete() {
         this.totalWords += 1;
         
         this.progress = 0;
+        this.wrongTypes = 0;
         this.isCurrentWordCorrect = true;
         this.#nextWord();
         this.#updateWord();
