@@ -43,6 +43,8 @@ class TheWord
         this.#updateWord();
         this.totalWords = data.totalWords;
         this.totalCorrectTypes = data.totalCorrectTypes;
+        this.correctTypes = 0;
+        this.wrongTypes = 0;
         this.#updateScore();
         this.records = data.records;
         this.#updateRecord();
